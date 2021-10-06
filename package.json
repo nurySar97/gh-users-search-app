@@ -1,6 +1,6 @@
 {
     "homepage": "http://nurySar97.github.io/gh-users-search-app",
-    "name": "my-app",
+    "name": "gh-users-search-app",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
