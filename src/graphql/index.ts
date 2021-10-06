@@ -1,11 +1,11 @@
 import { graphql } from '@octokit/graphql'
 import { searchQuery, userQuery } from './queries'
-const REACT_APP_TOKEN: any = process.env.REACT_APP_TOKEN
+const TOKEN: string = 'token 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'
 
 class OktakitGraphql {
   graphqlWithAuth = graphql.defaults({
     headers: {
-      authorization: REACT_APP_TOKEN
+      authorization: TOKEN
     }
   })
 
