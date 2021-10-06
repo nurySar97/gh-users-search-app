@@ -23,7 +23,7 @@ class OktakitGraphql {
 
   async getUser (name: string) {
     try {
-      const { user } = await this.graphqlWithAuth(userQuery(name))
+      const { user }:any = await this.graphqlWithAuth(userQuery(name))
       return { error: false, data: user }
     } catch (error) {
       console.error(error)

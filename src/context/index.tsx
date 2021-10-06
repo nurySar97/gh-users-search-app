@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { IContextApp, IStoreProviderState } from './../interfaces/context'
+import { IStoreContextDefaultValues, IStoreProviderState } from './../interfaces/context'
 import oktakitGraphql from './../graphql'
 
 const defaultState = {
@@ -20,13 +20,13 @@ const defaultState = {
   users: []
 }
 
-export const AppContext = createContext<IContextApp>({
+export const StoreContext = createContext<IStoreContextDefaultValues>({
   getUserByName: () => {},
   searchUsersByName: () => {},
   ...defaultState
 })
 
-class StoreProvider extends React.Component<object, IStoreProviderState> {
+class StoreProvider extends React.Component<{}, IStoreProviderState> {
   state = defaultState
 
   constructor (props: {}) {
@@ -37,31 +37,30 @@ class StoreProvider extends React.Component<object, IStoreProviderState> {
 
   async searchUsersByName (name = '') {
     if (name) {
-      const response = await oktakitGraphql.searchUsers(name)
-      if (!response['error']) {
-        this.setState({ users: response['data'] })
+      const { error, data } = await oktakitGraphql.searchUsers(name)
+      if (!error) {
+        this.setState({ users: data })
       }
-      return response['error']
-    } else {
-      this.setState({ users: [] })
-      return false
+      return error
     }
+    this.setState({ users: [] })
+    return false
   }
 
   async getUserByName (name = '') {
     if (name) {
-      const response = await oktakitGraphql.getUser(name)
-      if (!response['error']) {
-        this.setState({ user: response['data'] })
+      const {error, data} = await oktakitGraphql.getUser(name)
+      if (!error) {
+        this.setState({ user: data })
       }
-      return response['error']
+      return error
     }
     return false
   }
 
   render () {
     return (
-      <AppContext.Provider
+      <StoreContext.Provider
         value={{
           users: this.state.users,
           user: this.state.user,
@@ -70,7 +69,7 @@ class StoreProvider extends React.Component<object, IStoreProviderState> {
         }}
       >
         {this.props.children}
-      </AppContext.Provider>
+      </StoreContext.Provider>
     )
   }
 }

@@ -33,9 +33,9 @@ const Default: React.FC<propsTypes> = ({ user }) => {
           <p className='fs-3 fw-bold'>{name || login}</p>
           <p>{email}</p>
           <p>{location}</p>
-          <p>Created: {new Date(String(createdAt)).toLocaleDateString()}</p>
-          <p>{followers.totalCount} Followers</p>
-          <p>Following {following?.totalCount}</p>
+          <p>Joined: {new Date(String(createdAt)).toDateString()}</p>
+          <p>Followers: {followers.totalCount}</p>
+          <p>Following: {following?.totalCount}</p>
         </div>
       </div>
 

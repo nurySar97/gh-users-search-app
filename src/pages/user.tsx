@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect, useParams } from 'react-router'
-import useStore from '../hooks/useContext'
+import useStore from '../hooks/useStore'
 import Input from './../components/input'
-import { INodesItem } from './../interfaces/context'
+import { IReposNodesItem } from './../interfaces/context'
 import UserInfo from './../components/userInfo'
 import Spinner from './../components/spinner'
 import RepoList from './../components/repoList'
@@ -14,21 +14,19 @@ interface IParams {
 const Default: React.FC = () => {
   const { login } = useParams<IParams>()
   const { getUserByName, user } = useStore()
-  const { repositories } = user
   const [value, setValue] = useState<string>('')
-  const [isLoaded, setIsLoaded] = useState<boolean>(true)
-  const [repos, setRepos] = useState<INodesItem[]>(repositories.nodes)
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const [error, setError] = useState<boolean>(false)
+  const [repos, setRepos] = useState<IReposNodesItem[]>([])
+  const repositories: Array<IReposNodesItem> = user.repositories.nodes
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
     setValue(value)
-
     if (!value) return setRepos([])
-
-    setRepos(() =>
-      repositories.nodes.filter(item =>
-        new RegExp(value, 'i').test(`{${item.name}}`)
+    setRepos(
+      repositories.filter(item =>
+        new RegExp(value, 'i').test(String(item.name))
       )
     )
   }
@@ -44,23 +42,23 @@ const Default: React.FC = () => {
   if (error) return <Redirect to='/' />
   return (
     <main className='main'>
-      <div className='main-inner py-3 px-3 p-sm-3 br-3 rounded-3'>
-        {isLoaded ? (
+      <div className='main-inner p-3 br-3 rounded-3'>
+        {!isLoaded && <Spinner />}
+
+        {isLoaded && (
           <React.Fragment>
             <UserInfo user={user} />
             <Input
               onInputChange={onInputChange}
               value={value}
-              placeholder={"Search for User's Repositories"}
+              placeholder={"Search for user's repositories..."}
             />
-            {!!value && !!repos.length ? (
-              <RepoList repos={repos} login={login} />
-            ) : (
-              <div className='text-center'>No result yet</div>
-            )}
+            <RepoList
+              countOfRepos={repositories.length}
+              repos={repos}
+              login={login}
+            />
           </React.Fragment>
-        ) : (
-          <Spinner />
         )}
       </div>
     </main>

@@ -1,12 +1,17 @@
 import React from 'react'
-import { INodesItem } from './../interfaces/context'
+import { IReposNodesItem } from './../interfaces/context'
 
-interface propTypes {
-  repos: Array<INodesItem>
-  login: string
+interface propsTypes {
+  repos: Array<IReposNodesItem>
+  login: string,
+  countOfRepos: number
 }
 
-const Default: React.FC<propTypes> = ({ repos, login }) => {
+const Default: React.FC<propsTypes> = ({ repos, login, countOfRepos }) => {
+
+  if(!countOfRepos) return <div className='text-center'>User has not available repository</div>
+  if(!repos.length) return <div className='text-center'>No result yet</div>
+  
   return (
     <div className='card'>
       <ul className='list-group'>
@@ -19,10 +24,10 @@ const Default: React.FC<propTypes> = ({ repos, login }) => {
                 rel='noreferrer'
               >
                 <div className='row'>
-                  <div className='d-flex align-items-center col-8 col-sm-3 col-md-8 fs-5 fw-bold'>
+                  <div className='col-6 fs-6 fw-bold d-flex align-items-center'>
                     {name}
                   </div>
-                  <div className='col-6 col-sm-5 col-md-4 d-flex flex-column'>
+                  <div className='col-6 fs-6 fw-bold d-flex flex-column'>
                     <p className='text-end'>{forkCount} Forks</p>
                     <p className='text-end'>{stargazerCount} Stars</p>
                   </div>

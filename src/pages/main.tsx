@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import useStore from '../hooks/useContext'
+import useStore from '../hooks/useStore'
 import Input from './../components/input'
 import Spinner from './../components/spinner'
 import UsersList from './../components/usersList'
@@ -7,17 +7,17 @@ import UsersList from './../components/usersList'
 const Default: React.FC = () => {
   const { searchUsersByName, users } = useStore()
   const [value, setValue] = useState<string>('')
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoaded, setIsLoaded] = useState<boolean>(true)
   const timeOut = useRef<any>(null)
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     clearTimeout(timeOut.current)
     const value: string = event.target.value
-    setIsLoading(() => true)
+    setIsLoaded(false)
     setValue(value)
 
     if (!value) {
-      setIsLoading(() => false)
+      setIsLoaded(true)
       searchUsersByName('')
       return
     }
@@ -26,26 +26,19 @@ const Default: React.FC = () => {
 
   async function fetchUsers () {
     await searchUsersByName(value)
-    await setIsLoading(() => false)
+    await setIsLoaded(true)
     clearTimeout(timeOut.current)
   }
 
   return (
     <main className='main'>
-      <div className='main-inner py-3 px-3 p-sm-3 br-3 rounded-3'>
+      <div className='main-inner p-3 br-3 rounded-3'>
         <Input
           onInputChange={onInputChange}
           placeholder={'Search users...'}
           value={value}
         />
-
-        {isLoading ? (
-          <Spinner />
-        ) : users.length ? (
-          <UsersList users={users} />
-        ) : (
-          <div className='text-center'>No result yet</div>
-        )}
+        {isLoaded ? <UsersList users={users} /> : <Spinner/>}
       </div>
     </main>
   )

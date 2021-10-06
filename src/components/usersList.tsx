@@ -3,37 +3,38 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { IUsersItem } from './../interfaces/context'
 
-interface propTypes {
+interface propsTypes {
   users: Array<IUsersItem>
 }
 
-const Default: React.FC<propTypes> = ({ users }) => {
+const Default: React.FC<propsTypes> = ({ users }) => {
+  if(!users.length) return <div className='text-center'>No result yet</div>
   return (
     <div className='card'>
       <ul className='list-group'>
-        {users.map(({ id, avatarUrl, name, login, repositories }, index) => {
+        {users.map(({ id, avatarUrl, name, login, repositories }) => {
           if (!name && !login) return null
           return (
             <li
               className='list-group-item cursor-pointer'
-              key={index + ' ' + id}
+              key={id}
             >
               <Link to={`/user/${login}`}>
                 <div className='row'>
-                  <div className='col-3 col-sm-3 col-md-1'>
-                    <CardImage>
+                  <div className='col-3 col-sm-3 col-md-2'>
+                    <CardImage className='mx-auto'>
                       <CardImageLoader />
                       <CardImageInner>
-                        <img src={`${avatarUrl}`} alt='' />
+                        <img src={`${avatarUrl}`} alt='card' />
                       </CardImageInner>
                     </CardImage>
                   </div>
-                  <div className='col-6 col-sm-5 col-md-6 d-flex align-items-center'>
-                    <span className='fs-4 fw-bold'>{name || login}</span>
+                  <div className='col-5 col-sm-5 col-md-5 d-flex align-items-center'>
+                    <span className='fs-sm-6 fs-6 fw-bold'>{name || login}</span>
                   </div>
-                  <div className='col-2 col-sm-4 col-md-5 d-flex align-items-center justify-content-end'>
-                    <span className='fs-4 fw-bold'>
-                      {repositories.totalCount}
+                  <div className='col-4 col-sm-4 col-md-5 d-flex align-items-center justify-content-end'>
+                    <span className='fs-sm-6 fs-6 fw-bold'>
+                      Repo {repositories.totalCount}
                     </span>
                   </div>
                 </div>
@@ -49,9 +50,16 @@ const Default: React.FC<propTypes> = ({ users }) => {
 export default Default
 
 const CardImage = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   position: relative;
+
+  @media(max-width:425px){
+    & {
+      width: 50px;
+      height: 50px;
+    }
+  }
 `
 
 const CardImageLoader = styled.div`

@@ -1,11 +1,11 @@
-export interface INodesItem {
+export interface IReposNodesItem {
   forkCount: number | null
   stargazerCount: number | null
   name: string | null
 }
 
 export interface IRepositories {
-  nodes: Array<INodesItem>
+  nodes: Array<IReposNodesItem>
 }
 
 export interface IUser {
@@ -36,7 +36,7 @@ export interface IStoreProviderState {
   users: Array<IUsersItem>
 }
 
-export interface IContextApp extends IStoreProviderState {
+export interface IStoreContextDefaultValues extends IStoreProviderState {
   searchUsersByName: (name: string) => Promise<boolean> | void
   getUserByName: (name: string) => Promise<boolean> | void
 }
