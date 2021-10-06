@@ -34,7 +34,7 @@ const Default: React.FC<propsTypes> = ({ user }) => {
           <p>{email}</p>
           <p>{location}</p>
           <p>Created: {new Date(String(createdAt)).toLocaleDateString()}</p>
-          <p>{followers?.totalCount} Followers</p>
+          <p>{followers.totalCount} Followers</p>
           <p>Following {following?.totalCount}</p>
         </div>
       </div>
