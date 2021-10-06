@@ -2,48 +2,61 @@ import React, { createContext } from 'react'
 import { IContextApp, IStoreProviderState } from './../interfaces/context'
 import oktakitGraphql from './../graphql'
 
-const defaultAppContextValue = {
-  getUserByName: () => {},
-  searchUsersByName: () => {}
+const defaultState = {
+  user: {
+    name: null,
+    avatarUrl: null,
+    bio: null,
+    createdAt: null,
+    email: null,
+    followers: { totalCount: 0 },
+    following: { totalCount: 0 },
+    login: null,
+    location: null,
+    repositories: {
+      nodes: []
+    }
+  },
+  users: []
 }
 
-export const AppContext = createContext<IContextApp>(defaultAppContextValue)
+export const AppContext = createContext<IContextApp>({
+  getUserByName: () => {},
+  searchUsersByName: () => {},
+  ...defaultState
+})
 
 class StoreProvider extends React.Component<object, IStoreProviderState> {
+  state = defaultState
+
   constructor (props: {}) {
     super(props)
     this.searchUsersByName = this.searchUsersByName.bind(this)
     this.getUserByName = this.getUserByName.bind(this)
   }
-  state = {
-    user: {
-      name: null,
-      avatarUrl: null,
-      bio: null,
-      createdAt: null,
-      email: null,
-      followers: { totalCount: 0 },
-      following: { totalCount: 0 },
-      login: null,
-      repositories: {
-        nodes: []
+
+  async searchUsersByName (name = '') {
+    if (name) {
+      const response = await oktakitGraphql.searchUsers(name)
+      if (!response['error']) {
+        this.setState({ users: response['data'] })
       }
-    },
-    users: []
-  }
-
-  async searchUsersByName (name: string) {
-    if (name) {
-      const users = await oktakitGraphql.searchUsers(name)
-      this.setState({ users })
+      return response['error']
+    } else {
+      this.setState({ users: [] })
+      return false
     }
   }
 
-  async getUserByName (name: string = '', totalCount: number = 10) {
+  async getUserByName (name = '') {
     if (name) {
-      const user = await oktakitGraphql.getUser(name, totalCount)
-      this.setState({ user })
+      const response = await oktakitGraphql.getUser(name)
+      if (!response['error']) {
+        this.setState({ user: response['data'] })
+      }
+      return response['error']
     }
+    return false
   }
 
   render () {

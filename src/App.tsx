@@ -1,17 +1,21 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router'
 import { Main, User } from './pages'
+import Header from './components/header'
 
 const App: React.FC = () => {
   return (
-    <div className='root'>
+    <div className='app'>
       <div className='container'>
-        <Switch>
-          <Route exact path={'/'} render={Main} />
-          <Route exact path={'/user'} render={() => <Redirect to='/' />} />
-          <Route path={'/user:login'} render={User} />
-          <Redirect to='/' />
-        </Switch>
+        <div className='py-3'>
+          <Header />
+          <Switch>
+            <Route exact path={'/'} component={Main} />
+            <Route exact path={'/user'} render={() => <Redirect to='/' />} />
+            <Route path={'/user/:login'} component={User} />
+            <Redirect to='/' />
+          </Switch>
+        </div>
       </div>
     </div>
   )
