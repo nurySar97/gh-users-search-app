@@ -1,14 +1,14 @@
 export const searchQuery = (query: string): string => {
   return `
   {
-    search(type: USER, query: "${query}",  first: 100) {
+    search(query: "${query} in:login in:name", type: USER, first: 100) {
       nodes {
-        ...on User {
-          id,
+        ... on User {
+          id
+          name
+          login,
           avatarUrl,
-          name,
-          login
-          repositories{
+          repositories(first: 100) {
             totalCount
           }
         }

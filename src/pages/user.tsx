@@ -26,7 +26,7 @@ const Default: React.FC = () => {
     if (!value) return setRepos([])
     setRepos(
       repositories.filter(item =>
-        new RegExp(value, 'i').test(String(item.name))
+        String(item.name).includes(value)
       )
     )
   }

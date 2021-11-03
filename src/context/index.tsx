@@ -21,21 +21,21 @@ const defaultState = {
 }
 
 export const StoreContext = createContext<IStoreContextDefaultValues>({
-  getUserByName: () => {},
-  searchUsersByName: () => {},
+  getUserByName: () => { },
+  searchUsersByName: () => { },
   ...defaultState
 })
 
 class StoreProvider extends React.Component<{}, IStoreProviderState> {
   state = defaultState
 
-  constructor (props: {}) {
+  constructor(props: {}) {
     super(props)
     this.searchUsersByName = this.searchUsersByName.bind(this)
     this.getUserByName = this.getUserByName.bind(this)
   }
 
-  async searchUsersByName (name = '') {
+  async searchUsersByName(name = '') {
     if (name) {
       const { error, data } = await oktakitGraphql.searchUsers(name)
       if (!error) {
@@ -47,9 +47,9 @@ class StoreProvider extends React.Component<{}, IStoreProviderState> {
     return false
   }
 
-  async getUserByName (name = '') {
+  async getUserByName(name = '') {
     if (name) {
-      const {error, data} = await oktakitGraphql.getUser(name)
+      const { error, data } = await oktakitGraphql.getUser(name)
       if (!error) {
         this.setState({ user: data })
       }
@@ -58,7 +58,7 @@ class StoreProvider extends React.Component<{}, IStoreProviderState> {
     return false
   }
 
-  render () {
+  render() {
     return (
       <StoreContext.Provider
         value={{
