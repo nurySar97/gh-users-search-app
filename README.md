@@ -10,7 +10,9 @@ styled-components
 @octokit/graphql - github graphql api
 ```
 
+
 <img align="right" alt="GIF" src="./gh-search-app.gif" />
 
-## Before run the project
- - please add to .env file (in root directory) github personal access token!
+
+
+## Before run the project please add to .env file (in root directory) github personal access token!
