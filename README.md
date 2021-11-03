@@ -12,4 +12,6 @@ styled-components
 
 <img align="right" alt="GIF" src="./gh-search-app.gif" />
 
+#
 ### Before testing please add to .env file (in root directory) github personal access token!
+#
