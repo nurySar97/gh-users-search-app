@@ -68,7 +68,7 @@ const Default: React.FC = () => {
             {value ? isLoaded ? <RepoList
               repos={repositories}
               login={login}
-            /> : <Spinner /> : <div className='text-center'>Enter please repository name... </div>}
+            /> : <Spinner /> : <div className='text-center fs-4'>Enter please repository name... </div>}
           </React.Fragment>
         )}
       </div>

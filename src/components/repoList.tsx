@@ -8,7 +8,7 @@ interface propsTypes {
 
 const Default: React.FC<propsTypes> = ({ repos, login }) => {
 
-  if(!repos.length) return <div className='text-center'>No result yet</div>
+  if(!repos.length) return <div className='text-center fs-4'>No result yet</div>
   
   return (
     <div className='card'>

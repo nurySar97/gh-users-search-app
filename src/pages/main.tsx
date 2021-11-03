@@ -42,7 +42,7 @@ const Default: React.FC = () => {
           placeholder={'Search user...'}
           value={value}
         />
-        {value ? isLoaded ? <UsersList users={users} /> : <Spinner /> : <div className='text-center'>Enter please user name or login...</div>}
+        {value ? isLoaded ? <UsersList users={users} /> : <Spinner /> : <div className='text-center fs-4'>Enter please user name or login...</div>}
       </div>
     </main>
   )

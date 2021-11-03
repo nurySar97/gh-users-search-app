@@ -19,7 +19,7 @@ const Default: React.FC<propsTypes> = ({ user }) => {
     location
   } = user
   return (
-    <section>
+    <section className='mb-5'>
       <div className='row'>
         <div className='col-md-3'>
           <StyledAvatar className='mx-sm-auto mx-auto'>
@@ -29,17 +29,16 @@ const Default: React.FC<propsTypes> = ({ user }) => {
             </StyledAvatarInner>
           </StyledAvatar>
         </div>
-        <div className='col-md-8 col-sm-12 mt-sm-3 mt-md-0 mt-3'>
+        <div className='col-md-8 col-sm-12 mt-sm-3 mt-md-0 mt-3 fs-4'>
           <p className='fs-3 fw-bold'>{name || login}</p>
           <p>{email}</p>
           <p>{location}</p>
           <p>Joined: {new Date(String(createdAt)).toDateString()}</p>
           <p>Followers: {followers.totalCount}</p>
           <p>Following: {following?.totalCount}</p>
+          <em>{bio}</em>
         </div>
       </div>
-
-      <div className='fs-3 mb-3 text-center'>{bio}</div>
     </section>
   )
 }
