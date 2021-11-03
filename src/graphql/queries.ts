@@ -17,10 +17,25 @@ export const searchQuery = (query: string): string => {
   }`
 }
 
-export const userQuery = (name: string = 'nurySar97'): string => {
+export const userRepoQuery = (login: string, repoName: string) => {
   return `
   {
-    user(login: "${name}"){
+    search(query: "user:${login} ${repoName} in:name", type: REPOSITORY, first:100) {
+      nodes {
+        ...on Repository{
+          forkCount,
+          stargazerCount,
+          name
+        }
+      }
+    }
+  }`
+}
+
+export const userQuery = (login: string = ''): string => {
+  return `
+  {
+    user(login: "${login}"){
         name,
         login
         email,
@@ -29,16 +44,7 @@ export const userQuery = (name: string = 'nurySar97'): string => {
         createdAt,
         followers {totalCount},
         following {totalCount},
-        bio,
-        repositories(first: 100) {
-          nodes {
-            ...on Repository {
-              forkCount,
-              stargazerCount,
-              name
-            }
-          }
-        }
+        bio
     }
   }`
 }

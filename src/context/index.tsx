@@ -12,17 +12,16 @@ const defaultState = {
     followers: { totalCount: 0 },
     following: { totalCount: 0 },
     login: null,
-    location: null,
-    repositories: {
-      nodes: []
-    }
+    location: null
   },
+  userRepos: [],
   users: []
 }
 
 export const StoreContext = createContext<IStoreContextDefaultValues>({
   getUserByName: () => { },
   searchUsersByName: () => { },
+  searchUserRepoByName: () => { },
   ...defaultState
 })
 
@@ -33,6 +32,7 @@ class StoreProvider extends React.Component<{}, IStoreProviderState> {
     super(props)
     this.searchUsersByName = this.searchUsersByName.bind(this)
     this.getUserByName = this.getUserByName.bind(this)
+    this.searchUserRepoByName = this.searchUserRepoByName.bind(this)
   }
 
   async searchUsersByName(name = '') {
@@ -44,6 +44,18 @@ class StoreProvider extends React.Component<{}, IStoreProviderState> {
       return error
     }
     this.setState({ users: [] })
+    return false
+  }
+
+  async searchUserRepoByName(user = "", repoName = "") {
+    if (user && repoName) {
+      const { error, data } = await oktakitGraphql.searchUserRepo(user, repoName)
+      if (!error) {
+        this.setState({ userRepos: data })
+      }
+      return error
+    }
+    this.setState({ userRepos: [] })
     return false
   }
 
@@ -62,10 +74,12 @@ class StoreProvider extends React.Component<{}, IStoreProviderState> {
     return (
       <StoreContext.Provider
         value={{
-          users: this.state.users,
           user: this.state.user,
+          userRepos: this.state.userRepos,
+          users: this.state.users,
           searchUsersByName: this.searchUsersByName,
-          getUserByName: this.getUserByName
+          getUserByName: this.getUserByName,
+          searchUserRepoByName: this.searchUserRepoByName
         }}
       >
         {this.props.children}

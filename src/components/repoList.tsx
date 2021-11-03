@@ -1,15 +1,13 @@
 import React from 'react'
-import { IReposNodesItem } from './../interfaces/context'
+import { IUserReposItem } from './../interfaces/context'
 
 interface propsTypes {
-  repos: Array<IReposNodesItem>
-  login: string,
-  countOfRepos: number
+  repos: Array<IUserReposItem>
+  login: string
 }
 
-const Default: React.FC<propsTypes> = ({ repos, login, countOfRepos }) => {
+const Default: React.FC<propsTypes> = ({ repos, login }) => {
 
-  if(!countOfRepos) return <div className='text-center'>User has not available repository</div>
   if(!repos.length) return <div className='text-center'>No result yet</div>
   
   return (
@@ -28,8 +26,8 @@ const Default: React.FC<propsTypes> = ({ repos, login, countOfRepos }) => {
                     {name}
                   </div>
                   <div className='col-6 fs-6 fw-bold d-flex flex-column'>
-                    <p className='text-end'>{forkCount} Forks</p>
-                    <p className='text-end'>{stargazerCount} Stars</p>
+                    <div className='text-end'>{forkCount} Forks</div>
+                    <div className='text-end'>{stargazerCount} Stars</div>
                   </div>
                 </div>
               </a>

@@ -39,10 +39,10 @@ const Default: React.FC = () => {
       <div className='main-inner p-3 br-3 rounded-3'>
         <Input
           onInputChange={onInputChange}
-          placeholder={'Search users...'}
+          placeholder={'Search user...'}
           value={value}
         />
-        {value ? isLoaded ? <UsersList users={users} /> : <Spinner /> : "Enter please user name or login..."}
+        {value ? isLoaded ? <UsersList users={users} /> : <Spinner /> : <div className='text-center'>Enter please user name or login...</div>}
       </div>
     </main>
   )

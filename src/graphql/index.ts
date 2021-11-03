@@ -1,5 +1,5 @@
 import { graphql } from '@octokit/graphql'
-import { searchQuery, userQuery } from './queries'
+import { userRepoQuery, searchQuery, userQuery } from './queries'
 const TOKEN: any = process.env.REACT_APP_TOKEN
 
 class OktakitGraphql {
@@ -14,6 +14,18 @@ class OktakitGraphql {
       const {
         search: { nodes }
       }: any = await this.graphqlWithAuth(searchQuery(name))
+      return { error: false, data: nodes }
+    } catch (error) {
+      console.error(error)
+      return { error: true, data: null }
+    }
+  }
+
+  async searchUserRepo(login: string, repoName: string) {
+    try {
+      const {
+        search: { nodes }
+      }: any = await this.graphqlWithAuth(userRepoQuery(login, repoName))
       return { error: false, data: nodes }
     } catch (error) {
       console.error(error)
